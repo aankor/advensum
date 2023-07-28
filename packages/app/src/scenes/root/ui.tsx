@@ -3,7 +3,7 @@ import { useState, type FC, useEffect, useCallback } from 'react';
 import Game from '../../Game';
 import { useWallet } from '@solana/wallet-adapter-react';
 
-const LobbyUi: FC = () => {
+const RootUi: FC = () => {
   const { wallet } = useWallet();
   
   const handleConnect = useCallback(() => {
@@ -48,4 +48,4 @@ const LobbyUi: FC = () => {
   );
 };
 
-export default LobbyUi;
+export default RootUi;

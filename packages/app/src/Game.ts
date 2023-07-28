@@ -1,4 +1,4 @@
-import { Color, Engine, Loader } from "excalibur";
+import { Color, Engine, Loader, Scene } from "excalibur";
 import RootScene from "./scenes/root/scene";
 import Lobby from "./scenes/lobby";
 
@@ -7,6 +7,10 @@ export default class Game extends Engine {
     super({ width: 1024, height: 768, backgroundColor: Color.fromHex('#ccffff') });
     this.add('root', new RootScene());
     this.add('lobby', new Lobby());
+    this.add('characters', new Scene());
+    this.add('items', new Scene());
+    this.add('battles', new Scene());
+    this.add('summon', new Scene());
   }
 
   async initialize() {

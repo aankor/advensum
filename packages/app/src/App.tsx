@@ -7,12 +7,20 @@ import { useEffect, useMemo } from 'react';
 import Game from './Game';
 import RootUi from './scenes/root/ui';
 import LobbyUi from './scenes/lobby/ui';
+import CharactersUi from './scenes/characters/ui';
+import ItemsUi from './scenes/items/ui';
+import BattlesUi from './scenes/battles/ui';
+import SummonUi from './scenes/characters/summon/ui';
 
 const App: FC = () => {
   return (
     <Context>
       <RootUi />
       <LobbyUi />
+      <CharactersUi />
+      <ItemsUi />
+      <BattlesUi />
+      <SummonUi />
     </Context>
   );
 };

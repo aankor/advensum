@@ -1,9 +1,9 @@
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider } from '@solana/wallet-adapter-material-ui';
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { clusterApiUrl } from '@solana/web3.js';
+import { ConnectionProvider, WalletProvider, useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { PublicKey, clusterApiUrl } from '@solana/web3.js';
 import type { FC, ReactNode } from 'react';
-import { useEffect, useMemo } from 'react';
+import { createContext, useEffect, useMemo } from 'react';
 import Game from './Game';
 import RootUi from './scenes/root/ui';
 import LobbyUi from './scenes/lobby/ui';
@@ -15,10 +15,14 @@ import AddEnergyUi from './scenes/addEnergy/ui';
 import RemoveEnergyUi from './scenes/removeEnergy/ui';
 import AddSummoniteUi from './scenes/addSummonite/ui';
 import RemoveSummoniteUi from './scenes/removeSummonite/ui';
+import { AnchorProvider, Program } from '@coral-xyz/anchor';
+import { Advensum, IDL } from '../../../target/types/advensum';
+import { WorldContextProvider } from './hooks/WorldContext';
+import { UserContextProvider } from './hooks/UserContext';
 
 const App: FC = () => {
   return (
-    <Context>
+    <OuterContext>
       <RootUi />
       <LobbyUi />
       <CharactersUi />
@@ -29,13 +33,14 @@ const App: FC = () => {
       <RemoveEnergyUi />
       <AddSummoniteUi />
       <RemoveSummoniteUi />
-    </Context>
+    </OuterContext >
   );
 };
 
 export default App;
 
-const Context: FC<{ children: ReactNode }> = ({ children }) => {
+
+const OuterContext: FC<{ children: ReactNode }> = ({ children }) => {
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
   const network = WalletAdapterNetwork.Devnet;
 
@@ -49,7 +54,13 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={[]}>
-        <WalletDialogProvider>{children}</WalletDialogProvider>
+        <WalletDialogProvider>
+          <WorldContextProvider>
+            <UserContextProvider>
+              {children}
+            </UserContextProvider>
+          </WorldContextProvider>
+        </WalletDialogProvider>
       </WalletProvider>
     </ConnectionProvider>
   );

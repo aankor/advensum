@@ -1,0 +1,36 @@
+{
+  "name": "",
+  "version": "0.0.0",
+  "description": "",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "files": [
+    "build/src"
+  ],
+  "license": "Apache-2.0",
+  "keywords": [],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "cli": "ts-node src/index"
+  },
+  "devDependencies": {
+    "@types/expand-tilde": "^2.0.0",
+    "@types/mz": "^2.7.4",
+    "@types/node": "^20.4.5",
+    "gts": "^5.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "~5.1.6"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "0.28.1-beta.1",
+    "@solana/spl-governance": "^0.3.28",
+    "@solana/web3.js": "^1.78.0",
+    "commander": "^11.0.0",
+    "expand-tilde": "^2.0.2",
+    "mz": "^2.7.0"
+  }
+}

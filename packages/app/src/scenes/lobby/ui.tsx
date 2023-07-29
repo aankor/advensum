@@ -3,6 +3,8 @@ import { useState, type FC, useEffect, useCallback } from 'react';
 import Game from '../../Game';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Button } from '@mui/material';
+import Energy from '../../components/Energy';
+import Summonite from '../../components/Summonite';
 
 const LobbyUi: FC = () => {
   const { wallet } = useWallet();
@@ -54,6 +56,10 @@ const LobbyUi: FC = () => {
   return (
     <>{active ? <div id="root-ui" className='container'>
       <WalletMultiButton />
+      <br/>
+      <Energy/>
+      <br/>
+      <Summonite/>
       <br/>
       <Button variant="contained" onClick={gotoCharacters}>Characters</Button>
       <br/>

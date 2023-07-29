@@ -5,7 +5,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const CharactersUi: FC = () => {
+const RemoveSummoniteUi: FC = () => {
   // const { wallet } = useWallet();
 
   const [active, setActive] = useState(false);
@@ -15,17 +15,17 @@ const CharactersUi: FC = () => {
       const activateHandler = () => {
         setActive(true);
       };
-      Game.raw.scenes['characters'].on('activate', activateHandler);
+      Game.raw.scenes['removeSummonite'].on('activate', activateHandler);
 
       const deactivateHandler = () => {
         setActive(false);
       }
-      Game.raw.scenes['characters'].on('deactivate', deactivateHandler);
+      Game.raw.scenes['removeSummonite'].on('deactivate', deactivateHandler);
 
 
       () => {
-        Game.raw.scenes['characters'].off('activate', activateHandler);
-        Game.raw.scenes['characters'].off('deactivate', deactivateHandler);
+        Game.raw.scenes['removeSummonite'].off('activate', activateHandler);
+        Game.raw.scenes['removeSummonite'].off('deactivate', deactivateHandler);
       }
     },
     [setActive]);
@@ -33,16 +33,13 @@ const CharactersUi: FC = () => {
   const goBack = useCallback(() => {
     Game.raw.goToScene('lobby');
   }, []);
-  const goSummon = useCallback(() => {
-    Game.raw.goToScene('summon');
-  }, [])
 
   return (
     <>{active ? <div id="root-ui" className='container'>
       <Button variant="contained" onClick={goBack}><ArrowBackIcon/></Button>
-      <Button variant="contained" onClick={goSummon}>Summon</Button>
+      Sell your summonite to someone by using token markets. TODO: jupiter swap here
     </div > : ''}</>
   );
 };
 
-export default CharactersUi;
+export default RemoveSummoniteUi;

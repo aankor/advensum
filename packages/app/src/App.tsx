@@ -11,6 +11,10 @@ import CharactersUi from './scenes/characters/ui';
 import ItemsUi from './scenes/items/ui';
 import BattlesUi from './scenes/battles/ui';
 import SummonUi from './scenes/characters/summon/ui';
+import AddEnergyUi from './scenes/addEnergy/ui';
+import RemoveEnergyUi from './scenes/removeEnergy/ui';
+import AddSummoniteUi from './scenes/addSummonite/ui';
+import RemoveSummoniteUi from './scenes/removeSummonite/ui';
 
 const App: FC = () => {
   return (
@@ -21,6 +25,10 @@ const App: FC = () => {
       <ItemsUi />
       <BattlesUi />
       <SummonUi />
+      <AddEnergyUi />
+      <RemoveEnergyUi />
+      <AddSummoniteUi />
+      <RemoveSummoniteUi />
     </Context>
   );
 };

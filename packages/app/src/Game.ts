@@ -11,6 +11,10 @@ export default class Game extends Engine {
     this.add('items', new Scene());
     this.add('battles', new Scene());
     this.add('summon', new Scene());
+    this.add('addEnergy', new Scene());
+    this.add('removeEnergy', new Scene());
+    this.add('addSummonite', new Scene());
+    this.add('removeSummonite', new Scene());
   }
 
   async initialize() {

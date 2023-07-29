@@ -3,6 +3,7 @@ import RootScene from "./scenes/root/scene";
 import Lobby from "./scenes/lobby";
 import logo from "./logo";
 import { PublicKey } from "@solana/web3.js";
+import Battles from "./scenes/battles/scene";
 
 // export type WorldData = IdlAccounts<Advensum>['world'];
 
@@ -21,7 +22,7 @@ export default class Game extends Engine {
     this.add('lobby', new Lobby());
     this.add('characters', new Scene());
     this.add('items', new Scene());
-    this.add('battles', new Scene());
+    this.add('battles', new Battles());
     this.add('summon', new Scene());
     this.add('addEnergy', new Scene());
     this.add('removeEnergy', new Scene());

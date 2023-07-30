@@ -27,18 +27,28 @@ export default class CharacterUpgradeScene extends Scene {
 
   setAllCharacters(characters: CharacterInfo[]) {
     this.allCharacters = characters;
-    if (this.mainActor &&
-      !characters.find(c =>
-        c.address.equals(this.mainActor!.characterInfo.address))) {
+    const main = this.mainActor?.characterInfo?.address;
+    if (this.mainActor) {
       this.remove(this.mainActor);
       this.mainActor = undefined;
     }
-    if (this.materialSlotActor &&
-      !characters.find(c =>
-        c.address.equals(this.materialSlotActor!.characterInfo.address))) {
+    const newMain = main && characters.find(c => c.address.equals(main));
+    if (newMain) {
+      this.mainActor = new MainActor(newMain);
+      this.add(this.mainActor);
+    }
+    const material = this.materialSlotActor?.characterInfo?.address;
+    if (this.materialSlotActor) {
       this.remove(this.materialSlotActor);
       this.materialSlotActor = undefined;
     }
+    const newMaterial = material && characters.find(c =>
+      c.address.equals(material));
+    if (newMaterial) {
+      this.materialSlotActor = new MaterialSlotActor(newMaterial);
+      this.add(this.materialSlotActor);
+    }
+
     for (const a of this.availableMaterialActors) {
       this.remove(a);
     }

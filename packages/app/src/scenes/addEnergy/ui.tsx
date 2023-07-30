@@ -151,6 +151,8 @@ const AddEnergyUi: FC = () => {
         value={value}
         onChange={onValueChange}
       />
+      <br />
+      <br />
       <Button variant="contained" onClick={handleBuy}>Buy</Button>
     </div > : ''}</>
   );

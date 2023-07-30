@@ -37,6 +37,8 @@ const RemoveEnergyUi: FC = () => {
   return (
     <>{active ? <div id="root-ui" className='container'>
       <Button variant="contained" onClick={goBack}><ArrowBackIcon/></Button>
+      <br />
+      <br />
       Sell your energy to someone by using token markets. TODO: jupiter swap here
     </div > : ''}</>
   );

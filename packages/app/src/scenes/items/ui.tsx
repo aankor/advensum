@@ -30,16 +30,18 @@ const ItemsUi: FC = () => {
     },
     [setActive]);
 
-    const goBack = useCallback(() => {
-      Game.raw.goToScene('lobby');
-    }, []);
-  
-    return (
-      <>{active ? <div id="root-ui" className='container'>
-        <Button variant="contained" onClick={goBack}><ArrowBackIcon /></Button>
-        Items
-      </div > : ''}</>
-    );
+  const goBack = useCallback(() => {
+    Game.raw.goToScene('lobby');
+  }, []);
+
+  return (
+    <>{active ? <div id="root-ui" className='container'>
+      <Button variant="contained" onClick={goBack}><ArrowBackIcon /></Button>
+      <br />
+      <br />
+      Items
+    </div > : ''}</>
+  );
 };
 
 export default ItemsUi;

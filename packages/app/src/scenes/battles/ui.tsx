@@ -37,6 +37,8 @@ const BattlesUi: FC = () => {
   return (
     <>{active ? <div id="root-ui" className='container'>
       <Button variant="contained" onClick={goBack}><ArrowBackIcon /></Button>
+      <br />
+      <br />
       Battles
     </div > : ''}</>
   );

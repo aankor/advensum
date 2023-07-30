@@ -3,6 +3,7 @@ import { installInitWorld } from "./initWorld";
 import { installInitBanner } from "./initBanner";
 import { installSetCharactersCollection } from "./setCharactersCollection";
 import { installAddBannerItem } from "./addBannerItem";
+import { installMintCharacter } from "./mintCharacter";
 // import { installShow } from "./show";
 
 export function installCommands(program: Command) {
@@ -11,4 +12,5 @@ export function installCommands(program: Command) {
     installInitBanner(program);
     installAddBannerItem(program);
     installSetCharactersCollection(program);
+    installMintCharacter(program);
 }

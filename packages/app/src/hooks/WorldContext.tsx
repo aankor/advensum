@@ -9,11 +9,16 @@ import Game from "../Game";
 export type WorldData = IdlAccounts<Advensum>['world'];
 export type BannerData = IdlAccounts<Advensum>['banner'];
 
+export interface BannerInfo {
+  address: PublicKey;
+  data: BannerData;
+}
+
 export interface WorldInfo {
   program: Program<Advensum> | null;
   worldPk: PublicKey;
   worldData: WorldData | null;
-  banners: BannerData[] | null;
+  banners: BannerInfo[] | null;
 }
 
 export const WorldContext = createContext<WorldInfo>({
@@ -52,11 +57,14 @@ export const WorldContextProvider: FC<{ children: ReactNode }> = ({ children }) 
     })();
   }, [program]);
 
-  const [banners, setBanners] = useState<BannerData[] | null>(null);
+  const [banners, setBanners] = useState<BannerInfo[] | null>(null);
   useEffect(() => {
     (async () => {
-      const v = (await program.account.banner.all(Game.raw.world.toBuffer())).map(v => v.account);
-      v.sort((a, b) => a.index.toNumber() - b.index.toNumber());
+      const v: BannerInfo[] = (await program.account.banner.all(Game.raw.world.toBuffer())).map(v => ({
+        address: v.publicKey,
+        data: v.account
+      }));
+      v.sort((a, b) => a.data.index.toNumber() - b.data.index.toNumber());
       setBanners(v);
     })();
   }, [program])

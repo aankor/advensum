@@ -13,3 +13,16 @@ export function minterAddress({
         world.toBytes(),
     ], programId)[0]
 }
+
+export function characterAddress({
+    programId,
+    nftMint,
+}: {
+    programId: PublicKey;
+    nftMint: PublicKey;
+}) {
+    return PublicKey.findProgramAddressSync([
+        Buffer.from('address', "utf-8"),
+        nftMint.toBytes(),
+    ], programId)[0]
+}

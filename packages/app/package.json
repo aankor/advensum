@@ -13,6 +13,7 @@
     "@coral-xyz/anchor": "0.28.1-beta.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@metaplex-foundation/mpl-token-metadata": "^2.13.0",
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.2",
     "@solana/spl-token": "^0.3.8",

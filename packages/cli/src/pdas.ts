@@ -12,17 +12,16 @@ export function minterAddress({
         world.toBytes(),
     ], programId)[0]
 }
-/*
-export function characterKindAddress({
+
+export function characterAddress({
     programId,
-    collectionMint,
+    nftMint,
 }: {
     programId: PublicKey;
-    collectionMint: PublicKey;
+    nftMint: PublicKey;
 }) {
     return PublicKey.findProgramAddressSync([
         Buffer.from('address', "utf-8"),
-        collectionMint.toBytes(),
+        nftMint.toBytes(),
     ], programId)[0]
 }
-*/

@@ -136,9 +136,12 @@ const AddEnergyUi: FC = () => {
     <>{active ? <div id="root-ui" className='container'>
       <Button variant="contained" onClick={goBack}><ArrowBackIcon /></Button>
       <br />
+      <br />
       Price: {price === null ? <RefreshIcon /> : price} SOL/Energy
       <br />
+      <br />
       Balance: {energyBalance === null ? <RefreshIcon /> : energyBalance} Energy
+      <br />
       <br />
       <TextField
         id="outlined-basic"

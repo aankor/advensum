@@ -1,12 +1,12 @@
-import { WalletMultiButton } from '@solana/wallet-adapter-material-ui';
 import { useState, type FC, useEffect, useCallback } from 'react';
 import Game from '../../Game';
-import { useWallet } from '@solana/wallet-adapter-react';
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useUserContext } from '../../hooks/UserContext';
+import CharactersScene from './scene';
 
 const CharactersUi: FC = () => {
-  // const { wallet } = useWallet();
+  const { characters } = useUserContext();
 
   const [active, setActive] = useState(false);
 
@@ -33,14 +33,17 @@ const CharactersUi: FC = () => {
   const goBack = useCallback(() => {
     Game.raw.goToScene('lobby');
   }, []);
-  const goSummon = useCallback(() => {
-    Game.raw.goToScene('summon');
-  }, [])
+
+  useEffect(() => {
+    if (characters) {
+      const scene = Game.raw.scenes['characters'] as CharactersScene;
+      scene.syncCharacters(characters);
+    }
+  }, [characters])
 
   return (
     <>{active ? <div id="root-ui" className='container'>
-      <Button variant="contained" onClick={goBack}><ArrowBackIcon/></Button>
-      <Button variant="contained" onClick={goSummon}>Summon</Button>
+      <Button variant="contained" onClick={goBack}><ArrowBackIcon /></Button>
     </div > : ''}</>
   );
 };

@@ -84,6 +84,7 @@ pub struct MintCharacter<'info> {
 
     /// CHECK: PDA
     #[account(
+        mut,
         seeds = [
             MINTER_SEED,
             &world.key().to_bytes(),
@@ -128,7 +129,6 @@ pub struct MintCharacter<'info> {
     pub payer: Signer<'info>,
 
     pub rent: Sysvar<'info, Rent>,
-    pub recent_blockhashes: Sysvar<'info, SlotHashes>,
 
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
@@ -138,7 +138,6 @@ pub struct MintCharacter<'info> {
 
 impl<'info> MintCharacter<'info> {
     pub fn process(&mut self) -> Result<()> {
-        msg!("slots {} - {}", self.recent_blockhashes[0].0, self.recent_blockhashes.last().unwrap().0);
         burn(
             CpiContext::new(
                 self.token_program.to_account_info(),
@@ -160,7 +159,7 @@ impl<'info> MintCharacter<'info> {
                 self.token_program.to_account_info(),
                 MintTo {
                     mint: self.character_mint.to_account_info(),
-                    to: self.character_mint.to_account_info(),
+                    to: self.character_token.to_account_info(),
                     authority: self.minter.to_account_info(),
                 },
                 &[&[
@@ -230,7 +229,7 @@ impl<'info> MintCharacter<'info> {
                     &[self.world.bumps.minter],
                 ]],
             ),
-            Some(1),
+            Some(0),
         )?;
 
         verify_collection(

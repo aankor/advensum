@@ -5,11 +5,16 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { Button } from '@mui/material';
 import Energy from '../../components/Energy';
 import Summonite from '../../components/Summonite';
-import { useWorldContext } from '../../hooks/WorldContext';
+import { BannerInfo, useWorldContext } from '../../hooks/WorldContext';
 import Lobby from './scene';
+import { ComputeBudgetProgram, Keypair, PublicKey, SYSVAR_RENT_PUBKEY, SystemProgram } from '@solana/web3.js';
+import * as mpl from '@metaplex-foundation/mpl-token-metadata';
+import { characterAddress, minterAddress } from '../../pdas';
+import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@coral-xyz/anchor/dist/cjs/utils/token';
+import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 
 const LobbyUi: FC = () => {
-  const { wallet } = useWallet();
+  const { wallet, publicKey } = useWallet();
   const handleDisconnect = useCallback(() => {
     Game.raw.goToScene('root');
   }, []);
@@ -55,13 +60,102 @@ const LobbyUi: FC = () => {
     Game.raw.goToScene('battles')
   }, []);
 
-  const { banners } = useWorldContext();
+  const { banners, program, worldData } = useWorldContext();
+
+  const onBannerClick = useCallback<(a: BannerInfo) => Promise<void>>(
+    async (info) => {
+      if (!program || !publicKey || !worldData) {
+        return;
+      }
+
+      const nftMintKp = Keypair.generate();
+
+      await program.methods
+        .mintCharacter()
+        .accountsStrict({
+          minter: minterAddress({
+            programId: program.programId,
+            world: info.data.world,
+          }),
+          payer: publicKey,
+          systemProgram: SystemProgram.programId,
+          tokenProgram: TOKEN_PROGRAM_ID,
+          characterMint: nftMintKp.publicKey,
+          characterToken: getAssociatedTokenAddressSync(
+            nftMintKp.publicKey,
+            publicKey
+          ),
+          metadata: PublicKey.findProgramAddressSync(
+            [
+              Buffer.from('metadata', 'utf-8'),
+              mpl.PROGRAM_ID.toBuffer(),
+              nftMintKp.publicKey.toBuffer(),
+            ],
+            mpl.PROGRAM_ID
+          )[0],
+          masterEdition: PublicKey.findProgramAddressSync(
+            [
+              Buffer.from('metadata', 'utf-8'),
+              mpl.PROGRAM_ID.toBuffer(),
+              nftMintKp.publicKey.toBuffer(),
+              Buffer.from('edition', 'utf-8'),
+            ],
+            mpl.PROGRAM_ID
+          )[0],
+          rent: SYSVAR_RENT_PUBKEY,
+          associatedTokenProgram: ASSOCIATED_PROGRAM_ID,
+          metadataProgram: mpl.PROGRAM_ID,
+          banner: info.address,
+          character: characterAddress({
+            programId: program.programId,
+            nftMint: nftMintKp.publicKey,
+          }),
+          world: info.data.world,
+          owner: publicKey,
+          summoniteMint: worldData.summoniteMint,
+          summoniteSource: getAssociatedTokenAddressSync(
+            worldData.summoniteMint,
+            publicKey
+          ),
+          charactersCollection: worldData.charactersCollection,
+          charactersCollectionMetadata: PublicKey.findProgramAddressSync(
+            [
+              Buffer.from('metadata', 'utf-8'),
+              mpl.PROGRAM_ID.toBuffer(),
+              worldData.charactersCollection.toBuffer(),
+            ],
+            mpl.PROGRAM_ID
+          )[0],
+          charactersCollectionMasterEdition: PublicKey.findProgramAddressSync(
+            [
+              Buffer.from('metadata', 'utf-8'),
+              mpl.PROGRAM_ID.toBuffer(),
+              worldData.charactersCollection.toBuffer(),
+              Buffer.from('edition', 'utf-8'),
+            ],
+            mpl.PROGRAM_ID
+          )[0],
+        })
+        .preInstructions([
+          ComputeBudgetProgram.setComputeUnitLimit({
+            units: 1000000,
+          }),
+        ])
+        .signers([nftMintKp])
+        .rpc();
+    }, [program, publicKey, worldData]);
+
+
   useEffect(() => {
     if (banners) {
       const scene = Game.raw.scenes['lobby'] as Lobby;
       scene.syncBanners(banners);
+      for (const b of scene.banners) {
+        b.clickCallback = onBannerClick;
+      }
     }
-  }, [banners])
+  }, [banners, program, onBannerClick]);
+
 
   return (
     <>{active ? <div id="root-ui" className='container'>

@@ -156,7 +156,7 @@ impl<'info> SetCharactersCollection<'info> {
                     &[self.world.bumps.minter],
                 ]],
             ),
-            Some(1),
+            Some(0),
         )?;
 
         self.world.characters_collection = self.collection_mint.key();

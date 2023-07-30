@@ -136,10 +136,13 @@ const AddSummoniteUi: FC = () => {
     <>{active ? <div id="root-ui" className='container'>
       <Button variant="contained" onClick={goBack}><ArrowBackIcon/></Button>
       <br/>
+      <br />
       Price: {price === null ? <RefreshIcon /> : price} SOL/Summonite
       <br/>
+      <br />
       Balance: {summoniteBalance === null ? <RefreshIcon /> : summoniteBalance} Summonite
       <br/>
+      <br />
       <TextField
         id="outlined-basic"
         label="Summonite"

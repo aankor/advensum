@@ -19,3 +19,4 @@ default = []
 anchor-lang = "0.28.0"
 anchor-spl = { version = "0.28.0", features = ["devnet", "metadata", "mpl-token-metadata"] }
 mpl-token-metadata = { version = "1.13.0", features = ["no-entrypoint"] }
+switchboard-v2 = "0.3.0"

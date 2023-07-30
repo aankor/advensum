@@ -6,4 +6,5 @@ pub struct Character {
     pub level: u64,
     pub hp: u32,
     pub attack: u32,
+    pub mint: Pubkey,
 }

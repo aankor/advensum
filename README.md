@@ -16,7 +16,7 @@ The template for minting characters. Contains a list of characters you may mint 
 
  3. ### Character
 
-The character you own is an NFT token but this account is extending NFT mint by adding game-related data the same way as metaplex metadata is adding info on top of the token mint. It is a PDA dependent on the mint address only (so you can not use the same NFT in different worlds). Contains stats and the level of the character. Can be created by running mint_character from the game (clicking on the banner)
+The character you own is an NFT token but this account is extending NFT mint by adding game-related data the same way as metaplex metadata is adding info on top of the token mint. It is a PDA dependent on the mint address only (so you can not use the same NFT in different worlds). Contains stats and the level of the character. Can be created by running mint_character from the game (clicking on the banner). Can be used as upgrade material for another character.
 
 4. ### Not used accounts
 

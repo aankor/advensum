@@ -6,3 +6,6 @@ pub use world::*;
 
 pub mod mint_character;
 pub use mint_character::*;
+
+pub mod upgrade_character;
+pub use upgrade_character::*;

@@ -30,3 +30,8 @@
 .centered-button {
   margin: auto;
 }
+
+#upgrade-button {
+  left: 40px;
+  top: 650px;
+}

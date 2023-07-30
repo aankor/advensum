@@ -1,16 +1,21 @@
-import { Color, Engine, Loader, Scene } from "excalibur";
+import { Color, Engine, ImageSource, Loader, Scene } from "excalibur";
 import RootScene from "./scenes/root/scene";
 import logo from "./logo";
 import { PublicKey } from "@solana/web3.js";
 import Lobby from "./scenes/lobby/scene";
 import CharactersScene from "./scenes/characters/scene";
+import CharacterUpgradeScene from "./scenes/characterUpgrade/scene";
 
 // export type WorldData = IdlAccounts<Advensum>['world'];
+export function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export default class Game extends Engine {
   world: PublicKey;
   // rpcEndpoint?: string;
   // worldData?: WorldData;
+  images: Map<string, ImageSource | null>;
 
   constructor() {
     super({
@@ -28,8 +33,28 @@ export default class Game extends Engine {
     this.add('removeEnergy', new Scene());
     this.add('addSummonite', new Scene());
     this.add('removeSummonite', new Scene());
+    this.add('characterUpgrade', new CharacterUpgradeScene());
+    this.images = new Map();
 
     this.world = new PublicKey('3TVtzmya5YMsEu4JRP5njkpmDrWst5ad4XXhwfdWU69m');
+  }
+
+  async loadImage(path: string): Promise<ImageSource> {
+    let image = this.images.get(path);
+    if (image === null) {
+      while (image === null) {
+        await sleep(100);
+        image = this.images.get(path);
+      }
+    }
+    if (image) {
+      return image;
+    }
+    this.images.set(path, null);
+    image = new ImageSource(path);
+    await image.load();
+    this.images.set(path, image);
+    return image;
   }
 
   async initialize() {

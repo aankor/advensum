@@ -10,15 +10,13 @@ import LobbyUi from './scenes/lobby/ui';
 import CharactersUi from './scenes/characters/ui';
 import ItemsUi from './scenes/items/ui';
 import BattlesUi from './scenes/battles/ui';
-import SummonUi from './scenes/characters/summon/ui';
 import AddEnergyUi from './scenes/addEnergy/ui';
 import RemoveEnergyUi from './scenes/removeEnergy/ui';
 import AddSummoniteUi from './scenes/addSummonite/ui';
 import RemoveSummoniteUi from './scenes/removeSummonite/ui';
-import { AnchorProvider, Program } from '@coral-xyz/anchor';
-import { Advensum, IDL } from '../../../target/types/advensum';
 import { WorldContextProvider } from './hooks/WorldContext';
 import { UserContextProvider } from './hooks/UserContext';
+import CharacterUpgradeUi from './scenes/characterUpgrade/ui';
 
 const App: FC = () => {
   return (
@@ -28,11 +26,11 @@ const App: FC = () => {
       <CharactersUi />
       <ItemsUi />
       <BattlesUi />
-      <SummonUi />
       <AddEnergyUi />
       <RemoveEnergyUi />
       <AddSummoniteUi />
       <RemoveSummoniteUi />
+      <CharacterUpgradeUi />
     </OuterContext >
   );
 };

@@ -4,7 +4,7 @@ use crate::state::{
     world::{World, MINTER_SEED},
     ADDRESS_SEED,
 };
-use anchor_lang::prelude::*;
+use anchor_lang::{prelude::*, solana_program::sysvar::recent_blockhashes::RecentBlockhashes};
 use anchor_spl::{
     associated_token::AssociatedToken,
     metadata::{
@@ -14,6 +14,7 @@ use anchor_spl::{
     },
     token::{burn, mint_to, Burn, Mint, MintTo, Token, TokenAccount},
 };
+use arrayref::array_ref;
 use mpl_token_metadata::state::{Collection, Creator, DataV2};
 
 #[derive(Accounts)]
@@ -129,6 +130,7 @@ pub struct MintCharacter<'info> {
     pub payer: Signer<'info>,
 
     pub rent: Sysvar<'info, Rent>,
+    pub recent_blockhashes: Sysvar<'info, RecentBlockhashes>,
 
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
@@ -150,9 +152,28 @@ impl<'info> MintCharacter<'info> {
             self.banner.summonite_cost,
         )?;
 
-        let index: usize = 0;
-        let hp = self.banner.character_templates[index].max_hp;
-        let attack = self.banner.character_templates[index].max_attack;
+        let clock = Clock::get()?;
+        let garbage = self.recent_blockhashes.last().unwrap().blockhash.to_bytes();
+
+        let random1 = u32::from_le_bytes(*array_ref!(garbage, 0, 4))
+            ^ (clock.unix_timestamp % (u32::MAX as i64 + 1)) as u32;
+        let random2 = u32::from_le_bytes(*array_ref!(garbage, 4, 4))
+            ^ (clock.unix_timestamp % (u32::MAX as i64 + 1)) as u32;
+        let random3 = u32::from_le_bytes(*array_ref!(garbage, 8, 4))
+            ^ (clock.unix_timestamp % (u32::MAX as i64 + 1)) as u32;
+
+        let index = random1 as usize % self.banner.character_templates.len();
+        let hp = self.banner.character_templates[index].min_hp
+            + (((self.banner.character_templates[index].max_hp
+                - self.banner.character_templates[index].min_hp) as u64
+                * random2 as u64)
+                / (u32::MAX as u64 + 1)) as u32;
+        let attack = self.banner.character_templates[index].min_attack
+            + (((self.banner.character_templates[index].max_attack
+                - self.banner.character_templates[index].min_attack) as u64
+                * random3 as u64)
+                / (u32::MAX as u64 + 1)) as u32;
+        msg!("Minting char {} with hp {} attack {}", index, hp, attack);
 
         mint_to(
             CpiContext::new_with_signer(
@@ -256,10 +277,12 @@ impl<'info> MintCharacter<'info> {
 
         self.character.set_inner(Character {
             world: self.world.key(),
-            level: 0,
+            level: 1,
             hp,
             attack,
+            mint: self.character_mint.key(),
         });
+        self.world.character_count += 1;
 
         Ok(())
     }

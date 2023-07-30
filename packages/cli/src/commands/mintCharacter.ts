@@ -5,6 +5,7 @@ import {
   ComputeBudgetProgram,
   Keypair,
   PublicKey,
+  SYSVAR_RECENT_BLOCKHASHES_PUBKEY,
   SYSVAR_RENT_PUBKEY,
   SYSVAR_SLOT_HASHES_PUBKEY,
   SystemProgram,
@@ -126,6 +127,7 @@ async function processMintCharacter({
         ],
         mpl.PROGRAM_ID
       )[0],
+      recentBlockhashes: SYSVAR_RECENT_BLOCKHASHES_PUBKEY
     })
     .preInstructions([
       ComputeBudgetProgram.setComputeUnitLimit({

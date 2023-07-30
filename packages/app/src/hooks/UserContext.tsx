@@ -14,6 +14,8 @@ import * as mpl from '@metaplex-foundation/mpl-token-metadata';
 export type CharacterData = IdlAccounts<Advensum>['character'];
 
 export interface CharacterInfo {
+  address: PublicKey,
+  token: PublicKey,
   data: CharacterData,
   metadataUrl: string,
   image: string,
@@ -111,7 +113,6 @@ export const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) =
 
   useEffect(() => {
     setInterval(() => {
-      console.log('Must update');
       setTime(Date.now())
     }, 10000)
   }, [setTime]);
@@ -123,7 +124,6 @@ export const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) =
       return;
     }
     (async () => {
-      console.log('Updating');
       const tokens = await connection.getParsedProgramAccounts(
         TOKEN_PROGRAM_ID,
         {
@@ -147,11 +147,12 @@ export const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) =
           const nftMint = new PublicKey((token.account.data as ParsedAccountData)
             .parsed.info.mint);
           try {
+            const address = characterAddress({
+              programId: program.programId,
+              nftMint
+            });
             const characterData = await program.account.character.fetch(
-              characterAddress({
-                programId: program.programId,
-                nftMint
-              })
+              address
             );
             const metadata = await mpl.Metadata.fromAccountAddress(
               connection,
@@ -166,7 +167,9 @@ export const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) =
             );
             const metadataJson = await (await fetch(metadata.data.uri)).json();
             characters.push({
+              address,
               data: characterData,
+              token: token.pubkey,
               metadataUrl: metadata.data.uri,
               image: metadataJson.image
             });

@@ -1,5 +1,6 @@
 import { Actor, ImageSource, vec } from 'excalibur';
 import { BannerInfo } from '../../hooks/WorldContext';
+import Game from '../../Game';
 
 export default class Banner extends Actor {
   public clickCallback: (info: BannerInfo) => Promise<void>
@@ -16,8 +17,7 @@ export default class Banner extends Actor {
   }
 
   onInitialize() {
-    const image = new ImageSource(this.info.data.image);
-    image.load().then(() => {
+    Game.raw.loadImage(this.info.data.image).then((image) => {
       this.graphics.add(image.toSprite());
       this.on('pointerup', () => {
         this.clickCallback(this.info);

@@ -1,12 +1,12 @@
-import { Actor, Color, ImageSource, Label, Text, vec } from 'excalibur';
+import { Actor, Color, ImageSource, vec, Label } from 'excalibur';
 import { CharacterInfo } from '../../hooks/UserContext';
 import Game from '../../Game';
 import CharacterUpgradeScene from '../../scenes/characterUpgrade/scene';
 
-export default class Character extends Actor {
+export default class AvailableMaterialActor extends Actor {
   constructor(public characterInfo: CharacterInfo, public index: number) {
     super({
-      pos: vec(20 + (index % 6) * 132, 80 + Math.floor(index / 6) * 150),
+      pos: vec(296 + (index % 3) * 132, 80 + Math.floor(index / 3) * 150),
       width: 128,
       height: 128,
       anchor: vec(0, 0),
@@ -19,11 +19,6 @@ export default class Character extends Actor {
       sprite.width = 128;
       sprite.height = 128;
       this.graphics.add(sprite);
-      this.on('pointerup', () => {
-        const characterUpgradeScene = Game.raw.scenes['characterUpgrade'] as CharacterUpgradeScene;
-        characterUpgradeScene.setCharacter(this.characterInfo);
-        Game.raw.goToScene('characterUpgrade');
-      });
       this.addChild(new Label({
         text: 'Level: ' + this.characterInfo.data.level,
         color: Color.Yellow,
@@ -42,6 +37,10 @@ export default class Character extends Actor {
         x: 10,
         y: 60,
       }));
+      this.on('pointerup', () => {
+        const scene = Game.raw.scenes['characterUpgrade'] as CharacterUpgradeScene;
+        scene.setMaterial(this.characterInfo);
+      });
     });
   }
 }

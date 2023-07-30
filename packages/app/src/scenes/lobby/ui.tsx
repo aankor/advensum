@@ -7,7 +7,7 @@ import Energy from '../../components/Energy';
 import Summonite from '../../components/Summonite';
 import { BannerInfo, useWorldContext } from '../../hooks/WorldContext';
 import Lobby from './scene';
-import { ComputeBudgetProgram, Keypair, PublicKey, SYSVAR_RENT_PUBKEY, SystemProgram } from '@solana/web3.js';
+import { ComputeBudgetProgram, Keypair, PublicKey, SYSVAR_RECENT_BLOCKHASHES_PUBKEY, SYSVAR_RENT_PUBKEY, SystemProgram } from '@solana/web3.js';
 import * as mpl from '@metaplex-foundation/mpl-token-metadata';
 import { characterAddress, minterAddress } from '../../pdas';
 import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@coral-xyz/anchor/dist/cjs/utils/token';
@@ -135,6 +135,7 @@ const LobbyUi: FC = () => {
             ],
             mpl.PROGRAM_ID
           )[0],
+          recentBlockhashes: SYSVAR_RECENT_BLOCKHASHES_PUBKEY,
         })
         .preInstructions([
           ComputeBudgetProgram.setComputeUnitLimit({

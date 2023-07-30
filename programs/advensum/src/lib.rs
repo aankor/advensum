@@ -69,4 +69,8 @@ pub mod advensum {
     pub fn mint_character(ctx: Context<MintCharacter>) -> Result<()> {
         ctx.accounts.process()
     }
+
+    pub fn upgade_character(ctx: Context<UpgradeCharacter>) -> Result<()> {
+        ctx.accounts.process()
+    }
 }

@@ -19,6 +19,8 @@ import { AnchorProvider, Program } from '@coral-xyz/anchor';
 import { Advensum, IDL } from '../../../target/types/advensum';
 import { WorldContextProvider } from './hooks/WorldContext';
 import { UserContextProvider } from './hooks/UserContext';
+import { toastConfig } from 'react-simple-toasts';
+import 'react-simple-toasts/dist/theme/dark.css'; // import the desired theme
 
 const App: FC = () => {
   return (
@@ -50,6 +52,11 @@ const OuterContext: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     Game.instance();
   }, [])
+
+  // specify the theme in toastConfig
+  toastConfig({
+    theme: 'dark',
+  });
 
   return (
     <ConnectionProvider endpoint={endpoint}>

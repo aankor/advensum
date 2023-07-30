@@ -2,5 +2,8 @@ use anchor_lang::prelude::*;
 
 #[account]
 pub struct Character {
-    pub stage_lines_progress: Vec<i32>,
+    pub world: Pubkey,
+    pub level: u64,
+    pub hp: u32,
+    pub attack: u32,
 }

@@ -1,8 +1,8 @@
 import { Color, Engine, Loader, Scene } from "excalibur";
 import RootScene from "./scenes/root/scene";
-import Lobby from "./scenes/lobby";
 import logo from "./logo";
 import { PublicKey } from "@solana/web3.js";
+import Lobby from "./scenes/lobby/scene";
 
 // export type WorldData = IdlAccounts<Advensum>['world'];
 
@@ -28,7 +28,7 @@ export default class Game extends Engine {
     this.add('addSummonite', new Scene());
     this.add('removeSummonite', new Scene());
 
-    this.world = new PublicKey('6tD3haTFE5HqC8b15ZTzCc7aPLc4ggwgxa3SqYRGYAih');
+    this.world = new PublicKey('3TVtzmya5YMsEu4JRP5njkpmDrWst5ad4XXhwfdWU69m');
   }
 
   async initialize() {

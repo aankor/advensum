@@ -12,7 +12,7 @@ program
     .option(
         '--program-id <program-id>',
         'program ID',
-        'advsL9SKEkFZT5XipM78A8Y2bUomYWf9dvLJWBEzrn1')
+        'advsQ6WNSh5Fvsf1FxtLwFUV4ibxFa3GiF4Ko9zn5Ww')
     .option('--commitment <commitment>', 'Commitment', 'confirmed')
     .option(
         '-k, --keypair <keypair>', 'Wallet keypair', '~/.config/solana/id.json')

@@ -55,10 +55,10 @@ impl<'info> InitWorld<'info> {
             summonite_mint: self.summonite_mint.key(),
             summonite_price: 1000,
             treasury: self.treasury.key(),
-            stage_count: 0,
-            stage_line_starts: vec![],
             bumps,
             character_count: 0,
+            banner_count: 0,
+            characters_collection: Pubkey::default(),
         });
         Ok(())
     }

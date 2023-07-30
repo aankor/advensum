@@ -1,0 +1,23 @@
+{
+  "name": "Anna",
+  "symbol": "ACH",
+  "description": "Advensum character Anna",
+  "seller_fee_basis_points": 0,
+  "image": "https://aankor.space/Anna.jpeg",
+  "attributes": [],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://aankor.space/Anna.jpeg",
+        "type": "image/jpeg"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "6ZQPMzCC9VcwvV1cMoRyDwSVzS9Xut4p1RZ86gdwY2Za",
+        "share": 100
+      }
+    ]
+  }
+}

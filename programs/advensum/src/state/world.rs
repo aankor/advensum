@@ -15,8 +15,8 @@ pub struct World {
     pub treasury: Pubkey,
     pub character_count: u64,
     pub bumps: WorldBumps,
-    pub stage_count: u32,
-    pub stage_line_starts: Vec<Pubkey>,
+    pub banner_count: u64,
+    pub characters_collection: Pubkey,
 }
 
 #[constant]

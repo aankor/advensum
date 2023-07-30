@@ -18,9 +18,11 @@ const Summonite: FC = () => {
 
     return <div>
         Summonite: {summoniteBalance === null ? <RefreshIcon /> : summoniteBalance}
+        {' '}
         <Button variant="contained" onClick={goAddSummonite}>
             <AddIcon />
         </Button>
+        {' '}
         <Button variant="contained" onClick={goRemoveSummonite}>
             <RemoveIcon />
         </Button>

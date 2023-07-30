@@ -18,9 +18,11 @@ const Energy: FC = () => {
 
   return <div>
     Energy: {energyBalance === null ? <RefreshIcon /> : energyBalance}
+    {' '}
     <Button variant="contained" onClick={goAddEnergy}>
       <AddIcon />
     </Button>
+    {' '}
     <Button variant="contained" onClick={goRemoveEnergy}>
       <RemoveIcon />
     </Button>

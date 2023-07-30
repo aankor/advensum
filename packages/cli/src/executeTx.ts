@@ -60,6 +60,9 @@ export async function executeTx({
         } = await builder.prepare();
         // and building tx again because prepare is returning only one ix
         const tx = await builder.transaction();
+        for (const k of tx.instructions[0].keys) {
+            console.log(`${k.pubkey.toBase58()} ${k.isSigner}`);
+        }
         const {
             blockhash,
             lastValidBlockHeight,

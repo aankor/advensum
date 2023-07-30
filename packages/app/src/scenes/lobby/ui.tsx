@@ -5,6 +5,8 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { Button } from '@mui/material';
 import Energy from '../../components/Energy';
 import Summonite from '../../components/Summonite';
+import { useWorldContext } from '../../hooks/WorldContext';
+import Lobby from './scene';
 
 const LobbyUi: FC = () => {
   const { wallet } = useWallet();
@@ -53,19 +55,29 @@ const LobbyUi: FC = () => {
     Game.raw.goToScene('battles')
   }, []);
 
+  const { banners } = useWorldContext();
+  useEffect(() => {
+    if (banners) {
+      const scene = Game.raw.scenes['lobby'] as Lobby;
+      scene.syncBanners(banners);
+    }
+  }, [banners])
+
   return (
     <>{active ? <div id="root-ui" className='container'>
       <WalletMultiButton />
-      <br/>
-      <Energy/>
-      <br/>
-      <Summonite/>
-      <br/>
+      {' '}
       <Button variant="contained" onClick={gotoCharacters}>Characters</Button>
-      <br/>
+      {' '}
       <Button variant="contained" onClick={gotoItems}>Items</Button>
-      <br/>
+      {' '}
       <Button variant="contained" onClick={gotoBattles}>Battles</Button>
+      <br />
+      <br />
+      <Energy />
+      <br />
+      <Summonite />
+      <br />
     </div > : ''}</>
   );
 };

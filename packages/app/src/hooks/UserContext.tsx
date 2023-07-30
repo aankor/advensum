@@ -107,6 +107,15 @@ export const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) =
     };
   }, [connection, publicKey, worldData]);
 
+  const [time, setTime] = useState(Date.now());
+
+  useEffect(() => {
+    setInterval(() => {
+      console.log('Must update');
+      setTime(Date.now())
+    }, 10000)
+  }, [setTime]);
+
   const [characters, setCharacters] = useState<CharacterInfo[] | null>(null);
 
   useEffect(() => {
@@ -114,6 +123,7 @@ export const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) =
       return;
     }
     (async () => {
+      console.log('Updating');
       const tokens = await connection.getParsedProgramAccounts(
         TOKEN_PROGRAM_ID,
         {
@@ -169,7 +179,7 @@ export const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) =
       characters.sort((a, b) => b.data.level.toNumber() - a.data.level.toNumber())
       setCharacters(characters);
     })();
-  }, [connection, program, publicKey, setCharacters]);
+  }, [connection, program, publicKey, setCharacters, time]);
 
   const user = useMemo<UserInfo>(() => ({
     energyBalance,

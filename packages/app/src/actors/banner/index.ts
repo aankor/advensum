@@ -15,9 +15,9 @@ export default class Banner extends Actor {
     const image = new ImageSource(this.bannerData.image);
     image.load().then(() => {
       this.graphics.add(image.toSprite());
-    });
-    this.on('pointerup', () => {
-      alert('yo');
+      this.on('pointerup', () => {
+        alert('yo');
+      });
     });
   }
 }
